@@ -1,5 +1,6 @@
 import express from "express";
 import { JobSource } from "./models/JobSource.js";
+import { User } from "./models/User.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -87,7 +88,7 @@ app.post("/login", async (req, res) => {
   let password = req.body.password;
   const user = await User.findOne({ username });
   if (user === null) {
-    res.status(403).send("user not found");
+    res.status(403).send("User not found");
   } else {
     const passwordIsCorrect = await bcrypt.compare(password, user.hash);
     if (passwordIsCorrect) {
