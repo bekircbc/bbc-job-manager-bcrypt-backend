@@ -7,12 +7,12 @@ import cors from "cors";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const user = {
-  id: 1,
-  username: "hans",
-  firstname: "Hans",
-  lastname: "Richter",
-};
+// const user = {
+//   id: 1,
+//   username: "hans",
+//   firstname: "Hans",
+//   lastname: "Richter",
+// };
 
 dotenv.config();
 
@@ -53,18 +53,18 @@ app.get("/", (req, res) => {
   res.send("<h1>Job Manager API</h1>");
 });
 
-app.post("/maintain-login", verifyToken, (req, res) => {
-  jwt.verify(req.token, "secretkey", (err, authData) => {
-    if (err) {
-      res.sendStatus(403);
-    } else {
-      const data = decodeJwt(req.token);
-      res.json({
-        user: data.user,
-      });
-    }
-  });
-});
+// app.post("/maintain-login", verifyToken, (req, res) => {
+//   jwt.verify(req.token, "secretkey", (err, authData) => {
+//     if (err) {
+//       res.sendStatus(403);
+//     } else {
+//       const data = decodeJwt(req.token);
+//       res.json({
+//         user: data.user,
+//       });
+//     }
+//   });
+// });
 
 // app.post("/login", (req, res) => {
 //   const username = req.body.username;
