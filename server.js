@@ -1,6 +1,6 @@
 import express from "express";
 import { JobSource } from "./models/JobSource.js";
-import { User } from "./models/User.js";
+import { User } from "./models/Users.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -91,22 +91,22 @@ app.post("/login", async (req, res) => {
     res.status(403).send("User not found");
   } else {
     const passwordIsCorrect = await bcrypt.compare(password, user.hash);
-    // if (passwordIsCorrect) {
-    //   const frontendUser = {
-    //     username,
-    //     firstName: user.firstName,
-    //     lastName: user.lastName,
-    //     accessGroups: user.accessGroups,
-    //   };
-    //   jwt.sign({ user }, "secretkey", { expiresIn: "20s" }, (err, token) => {
-    //     res.json({
-    //       user: frontendUser,
-    //       token,
-    //     });
-    //   });
-    // } else {
-    //   res.status(403).send("bad password");
-    // }
+    if (passwordIsCorrect) {
+      const frontendUser = {
+        username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        accessGroups: user.accessGroups,
+      };
+      jwt.sign({ user }, "secretkey", { expiresIn: "20s" }, (err, token) => {
+        res.json({
+          user: frontendUser,
+          token,
+        });
+      });
+    } else {
+      res.status(403).send("bad password");
+    }
   }
 });
 

@@ -8,4 +8,4 @@ const userSchema = new mongoose.Schema({
   accessGroups: [String],
 });
 
-export const User = mongoose.model("user", jobSourceSchema);
+export const User = mongoose.model("user", userSchema);
