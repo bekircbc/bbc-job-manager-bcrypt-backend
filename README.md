@@ -93,3 +93,11 @@
         });
 
 - in postmann headers.. authorization ... value = Bearer + token ...
+
+# bcrypt
+
+- hash = salt + password (bcrypt gives different hash in each login)
+
+- you can add easy a secret key...
+
+        bcrypt.compare(secret+password. datbaseHash)
