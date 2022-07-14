@@ -15,7 +15,7 @@ const user = {
 dotenv.config();
 
 const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost/bbc-job-manager";
+  process.env.MONGODB_URI || "mongodb://localhost/bbc-job-manager-bcrypt";
 
 mongoose.connect(MONGODB_URI, (err) => {
   if (err) console.log(err);
