@@ -98,6 +98,8 @@
 
 - hash = salt + password (bcrypt gives different hash in each login)
 
-- you can add easy a secret key...
+- you can add easy a secret key... random secret key. an array, random zahl and odd or even beginnig or end of the password..
+
+- but salt and pepper, etc. can be best solution..
 
         bcrypt.compare(secret+password. datbaseHash)
