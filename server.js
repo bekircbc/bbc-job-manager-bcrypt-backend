@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const user = {
   id: 1,
@@ -64,18 +65,47 @@ app.post("/maintain-login", verifyToken, (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
+// app.post("/login", (req, res) => {
+//   const username = req.body.username;
+//   const password = req.body.password;
+//   if (username === "hans" && password === "123") {
+//     jwt.sign({ user }, "secretkey", { expiresIn: "50s" }, (err, token) => {
+//       res.json({
+//         user,
+//         token,
+//       });
+//     });
+//   } else {
+//     res.sendStatus(403);
+//   }
+// });
+
+//BCRYPT LOGIN
+
+app.post("/login", async (req, res) => {
   const username = req.body.username;
-  const password = req.body.password;
-  if (username === "hans" && password === "123") {
-    jwt.sign({ user }, "secretkey", { expiresIn: "50s" }, (err, token) => {
-      res.json({
-        user,
-        token,
-      });
-    });
+  let password = req.body.password;
+  const user = await User.findOne({ username });
+  if (user === null) {
+    res.status(403).send("user not found");
   } else {
-    res.sendStatus(403);
+    const passwordIsCorrect = await bcrypt.compare(password, user.hash);
+    if (passwordIsCorrect) {
+      const frontendUser = {
+        username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        accessGroups: user.accessGroups,
+      };
+      jwt.sign({ user }, "secretkey", { expiresIn: "20s" }, (err, token) => {
+        res.json({
+          user: frontendUser,
+          token,
+        });
+      });
+    } else {
+      res.status(403).send("bad password");
+    }
   }
 });
 
