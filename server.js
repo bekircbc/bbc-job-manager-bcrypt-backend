@@ -60,7 +60,7 @@ app.post("/maintain-login", verifyToken, (req, res) => {
     } else {
       const data = decodeJwt(req.token);
       res.json({
-        user: data.user,
+        user: currentUser,
       });
     }
   });
