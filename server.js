@@ -7,12 +7,12 @@ import cors from "cors";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const user = {
-  id: 1,
-  username: "hans",
-  firstname: "Hans",
-  lastname: "Richter",
-};
+// const user = {
+//   id: 1,
+//   username: "hans",
+//   firstname: "Hans",
+//   lastname: "Richter",
+// };
 
 dotenv.config();
 
@@ -60,7 +60,7 @@ app.post("/maintain-login", verifyToken, (req, res) => {
     } else {
       const data = decodeJwt(req.token);
       res.json({
-        user: currentUser,
+        user: data.user,
       });
     }
   });
@@ -93,17 +93,22 @@ app.post("/login", async (req, res) => {
     const passwordIsCorrect = await bcrypt.compare(password, user.hash);
     if (passwordIsCorrect) {
       const frontendUser = {
-        username,
+        username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
         accessGroups: user.accessGroups,
       };
-      jwt.sign({ user }, "secretkey", { expiresIn: "20s" }, (err, token) => {
-        res.json({
-          user: frontendUser,
-          token,
-        });
-      });
+      jwt.sign(
+        { user: frontendUser },
+        "secretkey",
+        { expiresIn: "50s" },
+        (err, token) => {
+          res.json({
+            user: frontendUser,
+            token,
+          });
+        }
+      );
     } else {
       res.status(403).send("bad password");
     }
